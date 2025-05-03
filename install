@@ -1,0 +1,69 @@
+#!/bin/sh
+
+PACKAGE=$1
+
+APK_FILE="${PACKAGE}.apk"
+APK_URL="https://dl-cdn.alpinelinux.org/alpine/latest-stable/main/x86_64/$APK_FILE"
+TMP_DIR="/mnt/external/0/lavender.env/tmp"
+ROOTFS="/mnt/external/0"
+TRACK_DIR="/mnt/external/0/lavender.env/installed"
+TRACK_FILE="$TRACK_DIR/${PACKAGE}.list"
+
+# Colors
+RED="\033[1;31m"
+GREEN="\033[1;32m"
+YELLOW="\033[1;33m"
+RESET="\033[0m"
+
+log_info()   { printf "${YELLOW}[!]${RESET} %s\n" "$1"; }
+log_success(){ printf "${GREEN}[✓]${RESET} %s\n" "$1"; }
+log_error()  { printf "${RED}[✗] %s${RESET}\n" "$1"; }
+
+mkdir -p "$TMP_DIR" "$TRACK_DIR"
+cd "$TMP_DIR" || { log_error "Failed to change directory to $TMP_DIR"; exit 1; }
+
+log_info "Downloading: $APK_URL"
+curl -s -O "$APK_URL" || { log_error "Download failed: $PACKAGE"; exit 1; }
+
+log_info "Checking contents of $APK_FILE..."
+tar -tf "$APK_FILE" > /dev/null 2>&1 || {
+  log_error "$APK_FILE is not a valid tar archive!"
+  exit 1
+}
+
+log_info "Extracting: $PACKAGE"
+tar -xf "$APK_FILE" --warning=no-unknown-keyword -C "$TMP_DIR"
+
+log_info "Distributing files and recording installed paths..."
+
+move_and_track() {
+  SRC="$1"
+  if [ -d "$TMP_DIR/$SRC" ]; then
+    for FILE in $(find "$TMP_DIR/$SRC" -type f); do
+      REL_PATH="${FILE#$TMP_DIR/}"
+      DEST_PATH="$ROOTFS/${REL_PATH}"
+      mkdir -p "$(dirname "$DEST_PATH")"
+      mv "$FILE" "$DEST_PATH"
+      echo "/${REL_PATH}" >> "$TRACK_FILE"
+    done
+  fi
+}
+
+move_and_track etc
+move_and_track bin
+move_and_track sbin
+move_and_track lib
+move_and_track usr/bin
+move_and_track usr/sbin
+move_and_track usr/lib
+move_and_track usr/share
+move_and_track usr/libexec
+
+log_info "Cleaning up temporary files..."
+rm -rf "$TMP_DIR"/*
+
+log_info "Running duplicate library checker..."
+/mnt/external/0/lavender.env/scripts/chk-libs
+
+log_success "Package installed: $PACKAGE"
+log_info "Tracking file: $TRACK_FILE"
