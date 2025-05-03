@@ -1,5 +1,6 @@
 set -gx EDITOR nano
 set -xU HOME /mnt/external/0/etc/home
+set -xU LAVENDER /mnt/external/0/
 function run
     set -l prog $argv[1]
 
