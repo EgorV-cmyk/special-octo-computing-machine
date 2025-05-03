@@ -37,9 +37,9 @@ log_ok "All directories created."
 
 # Download base scripts
 log_info "Downloading base tools..."
-curl -o /mnt/external/0/lavender.env/scripts/install https://your-url/install
-curl -o /mnt/external/0/lavender.env/scripts/remove https://your-url/remove
-curl -o /mnt/external/0/lavender.env/scripts/chk-libs https://your-url/chk-libs
+curl -o /mnt/external/0/lavender.env/scripts/install https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/refs/heads/main/install
+curl -o /mnt/external/0/lavender.env/scripts/remove https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/refs/heads/main/remove
+curl -o /mnt/external/0/lavender.env/scripts/chk-libs https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/refs/heads/main/chk-libs
 chmod +x /mnt/external/0/lavender.env/scripts/*
 log_ok "Base scripts downloaded."
 
@@ -60,8 +60,8 @@ log_ok "Core utilities installed."
 
 # Download fish config and startup script
 log_info "Fetching config and startup files..."
-curl -o /mnt/external/0/etc/home/.config/fish/config.fish https://your-url/config.fish
-curl -o /mnt/external/0/start-fish https://your-url/start-fish
+curl -o /mnt/external/0/etc/home/.config/fish/config.fish https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/refs/heads/main/fish-conf
+curl -o /mnt/external/0/start-fish https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/refs/heads/main/start-fish
 chmod +x /mnt/external/0/start-fish
 log_ok "Configuration files ready."
 
