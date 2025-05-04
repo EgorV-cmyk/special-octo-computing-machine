@@ -9,22 +9,26 @@ ROOTFS="/mnt/external/0"
 TRACK_DIR="/mnt/external/0/lavender.env/installed"
 TRACK_FILE="$TRACK_DIR/${PACKAGE}.list"
 
-RED="\e[38;5;33m"
-BLUE="\e[38;5;33m"
-YELLOW="\e[38;5;214m"
+RED="\e[38;5;196m"      # насыщенный красный
+BLUE="\e[38;5;33m"      # синий
+YELLOW="\e[38;5;214m"   # медовый
 RESET="\e[0m"
-log_info()   { echo -e "${YELLOW}[!]${RESET} %s\n" "$1"; }
-log_success(){ echo -e "${BLUE}[✓]${RESET} %s\n" "$1"; }
-log_error()  { echo -e "${RED}[✗] %s${RESET}\n" "$1"; }
+log_info()   { printf "${YELLOW}[!]${RESET} %s\n" "$1"; }
+log_success(){ printf "${BLUE}[✓]${RESET} %s\n" "$1"; }
+log_error()  { printf "${RED}[✗]${RESET} %s\n" "$1"; }
 
 mkdir -p "$TMP_DIR" "$TRACK_DIR"
 cd "$TMP_DIR" || { log_error "Failed to go to $TMP_DIR"; exit 1; }
 
-log_info "Downloading: $APK_URL"
-if [$REPO == "community"]; then
+if [ "$REPO" = "community" ]; then
+  log_info "Downloading: $APK_URL_COMMUNITY"
   curl -s -O "$APK_URL_COMMUNITY" || { log_error "Error loading $PACKAGE"; exit 1; }
-elfi [$REPO == "main"]; then
+elif [ "$REPO" = "main" ]; then
+  log_info "Downloading: $APK_URL_MAIN"
   curl -s -O "$APK_URL_MAIN" || { log_error "Error loading $PACKAGE"; exit 1; }
+else
+  log_error "Unknown repository: $REPO"
+  exit 1
 fi
 
 log_info "Checking archive contents..."
@@ -34,7 +38,7 @@ tar -tf "$APK_FILE" > /dev/null 2>&1 || {
 }
 
 log_info "Unpacking the package: $PACKAGE"
-tar -xf "$APK_FILE" --warning=no-unknown-keyword -C "$TMP_DIR"
+tar -xf "$APK_FILE" -C "$TMP_DIR"
 
 log_info "Installing files and tracking..."
 
@@ -56,16 +60,13 @@ for DIR in etc bin sbin lib usr/bin usr/sbin usr/lib usr/share usr/libexec; do
 done
 
 create_symlinks() {
-  for dir in /mnt/external/0/lib /mnt/external/0/usr/lib /mnt/external/0/usr/libexec; do
+  for dir in "$ROOTFS/lib" "$ROOTFS/usr/lib" "$ROOTFS/usr/libexec"; do
     [ -d "$dir" ] || continue
-
     for file in "$dir"/*.so.*; do
       [ -f "$file" ] || continue
-
       base="$(basename "$file")"
       name_without_version="$(echo "$base" | sed -E 's/\.so\..*/.so/')"
       major_version_link="$(echo "$base" | sed -E 's/(\.so\.[0-9]+)(\..*)*/\1/')"
-
       [ -e "$dir/$name_without_version" ] || ln -s "$base" "$dir/$name_without_version"
       [ -e "$dir/$major_version_link" ] || ln -s "$base" "$dir/$major_version_link"
     done
