@@ -1,1 +1,1 @@
-bash --rcfile /mnt/external/0/lavender.env/bashrc
+exec bash -i --rcfile /mnt/external/0/lavender.env/bashrc
