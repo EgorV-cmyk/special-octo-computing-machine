@@ -5,18 +5,18 @@ export LAVENDER=/mnt/external/0/
 PS1='\033[38;5;250m[\u@\h \W]\033[0m \$ '
 
 run() {
-    prog="$1"
-    
-    for dir in /mnt/external/0/bin /mnt/external/0/usr/bin; do
-        path="$dir/$prog"
-        
-        if [ -x "$path" ]; then
-            exec /mnt/external/0/lib/ld-musl-x86_64.so.1 \
-                --library-path /mnt/external/0/lib:/mnt/external/0/usr/lib:/mnt/external/0/usr/libexec \
-                "$path"
-            return
-        fi
-    done
+  local prog="$1"
+  local path
 
-    echo -e "\033[31m[✗] Program '$prog' not found in /mnt/external/0/bin or /mnt/external/0/usr/bin.\033[0m"
+  for dir in /mnt/external/0/bin /mnt/external/0/usr/bin; do
+    path="$dir/$prog"
+    if [ -x "$path" ]; then
+      /mnt/external/0/lib/ld-musl-x86_64.so.1 \
+        --library-path /mnt/external/0/lib:/mnt/external/0/usr/lib:/mnt/external/0/usr/libexec \
+        "$path" "${@:2}"
+      return
+    fi
+  done
+
+  echo -e "\033[1;31m[✗] Program '$prog' not found in /mnt/external/0/bin or /mnt/external/0/usr/bin.\033[0m"
 }
