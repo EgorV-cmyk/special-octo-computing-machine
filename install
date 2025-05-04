@@ -9,31 +9,30 @@ ROOTFS="/mnt/external/0"
 TRACK_DIR="/mnt/external/0/lavender.env/installed"
 TRACK_FILE="$TRACK_DIR/${PACKAGE}.list"
 
-# Цвета
 RED="\e[38;5;33m"
-GREEN="\e[38;5;33m"
+BLUE="\e[38;5;33m"
 YELLOW="\e[38;5;214m"
 RESET="\e[0m"
 log_info()   { echo -e "${YELLOW}[!]${RESET} %s\n" "$1"; }
-log_success(){ echo -e "${GREEN}[✓]${RESET} %s\n" "$1"; }
+log_success(){ echo -e "${BLUE}[✓]${RESET} %s\n" "$1"; }
 log_error()  { echo -e "${RED}[✗] %s${RESET}\n" "$1"; }
 
 mkdir -p "$TMP_DIR" "$TRACK_DIR"
-cd "$TMP_DIR" || { log_error "Не удалось перейти в $TMP_DIR"; exit 1; }
+cd "$TMP_DIR" || { log_error "Failed to go to $TMP_DIR"; exit 1; }
 
-log_info "Скачивание: $APK_URL"
-curl -s -O "$APK_URL" || { log_error "Ошибка загрузки $PACKAGE"; exit 1; }
+log_info "Downloading: $APK_URL"
+curl -s -O "$APK_URL" || { log_error "Error loading $PACKAGE"; exit 1; }
 
-log_info "Проверка содержимого архива..."
+log_info "Checking archive contents..."
 tar -tf "$APK_FILE" > /dev/null 2>&1 || {
-  log_error "$APK_FILE не является допустимым tar архивом!"
+  log_error "$APK_FILE is not a valid tar archive!"
   exit 1
 }
 
-log_info "Распаковка пакета: $PACKAGE"
+log_info "Unpacking the package: $PACKAGE"
 tar -xf "$APK_FILE" --warning=no-unknown-keyword -C "$TMP_DIR"
 
-log_info "Установка файлов и трекинг..."
+log_info "Installing files and tracking..."
 
 move_and_track() {
   SRC="$1"
@@ -48,7 +47,6 @@ move_and_track() {
   fi
 }
 
-# Основные каталоги
 for DIR in etc bin sbin lib usr/bin usr/sbin usr/lib usr/share usr/libexec; do
   move_and_track "$DIR"
 done
@@ -72,8 +70,8 @@ create_symlinks() {
 
 create_symlinks
 
-log_info "Очистка временных файлов..."
+log_info "Cleaning temporary files..."
 rm -rf "$TMP_DIR"/*
 
-log_success "Установлен: $PACKAGE"
-log_info "Файл трекинга: $TRACK_FILE"
+log_success "Installed: $PACKAGE"
+log_info "Tracking file: $TRACK_FILE"
