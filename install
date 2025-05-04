@@ -9,13 +9,14 @@ ROOTFS="/mnt/external/0"
 TRACK_DIR="/mnt/external/0/lavender.env/installed"
 TRACK_FILE="$TRACK_DIR/${PACKAGE}.list"
 
-RED="\e[38;5;196m"      # насыщенный красный
-BLUE="\e[38;5;33m"      # синий
-YELLOW="\e[38;5;214m"   # медовый
-RESET="\e[0m"
-log_info()   { printf "${YELLOW}[!]${RESET} %s\n" "$1"; }
-log_success(){ printf "${BLUE}[✓]${RESET} %s\n" "$1"; }
-log_error()  { printf "${RED}[✗]${RESET} %s\n" "$1"; }
+RED="\033[38;5;196m"      # насыщенный красный
+BLUE="\033[38;5;33m"      # синий
+YELLOW="\033[38;5;214m"   # медовый
+RESET="\033[0m"
+
+log_info()    { printf "${YELLOW}[!]${RESET} %s\n" "$1"; }
+log_success() { printf "${BLUE}[✓]${RESET} %s\n" "$1"; }
+log_error()   { printf "${RED}[✗]${RESET} %s\n" "$1"; }
 
 mkdir -p "$TMP_DIR" "$TRACK_DIR"
 cd "$TMP_DIR" || { log_error "Failed to go to $TMP_DIR"; exit 1; }
