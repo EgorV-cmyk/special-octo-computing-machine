@@ -2,7 +2,8 @@
 REPO=$1
 PACKAGE=$2
 APK_FILE="${PACKAGE}.apk"
-APK_URL_COMMUNITY="https://dl-cdn.alpinelinux.org/alpine/latest-stable/community/x86_64/$APK_FILE"
+APK_URL_MAIN_COMMUNITY="https://dl-cdn.alpinelinux.org/alpine/latest-stable/community/x86_64/$APK_FILE"
+APK_URL_EDGE_COMMUNITY="https://dl-cdn.alpinelinux.org/alpine/edge/community/x86_64/$APK_FILE"
 APK_URL_TESTING="https://dl-cdn.alpinelinux.org/alpine/edge/testing/x86_64/$APK_FILE"
 APK_URL_MAIN="https://dl-cdn.alpinelinux.org/alpine/latest-stable/main/x86_64/$APK_FILE"
 TMP_DIR="/mnt/external/0/lavender.env/tmp"
@@ -22,8 +23,11 @@ log_error()  { printf "${BOLD}${RED}[✗]${RESET} %s\n" "$1"; }
 mkdir -p "$TMP_DIR" "$TRACK_DIR"
 cd "$TMP_DIR" || { log_error "Failed to go to $TMP_DIR"; exit 1; }
 
-if [ "$REPO" = "community" ]; then
-  log_info "Downloading: $APK_URL_COMMUNITY"
+if [ "$REPO" = "main_community" ]; then
+  log_info "Downloading: $APK_URL_MAIN_COMMUNITY"
+  curl -s -O "$APK_URL_COMMUNITY" || { log_error "Error loading $PACKAGE"; exit 1; }
+elif [ "$REPO" = "edge_community" ]; then
+  log_info "Downloading: $APK_URL_EDGE_COMMUNITY"
   curl -s -O "$APK_URL_COMMUNITY" || { log_error "Error loading $PACKAGE"; exit 1; }
 elif [ "$REPO" = "main" ]; then
   log_info "Downloading: $APK_URL_MAIN"
