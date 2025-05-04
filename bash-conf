@@ -2,7 +2,7 @@ export EDITOR=nano
 export HOME=/mnt/external/0/etc/home
 export LAVENDER=/mnt/external/0/
 
-PS1='\033[38;5;12m\033[38;5;10m [\u@\h \W] \033[38;5;12m\033[0m $ '
+PS1='\033[38;5;57m[\u@\h \W]\033[0m \$ '
 
 run() {
     prog="$1"
