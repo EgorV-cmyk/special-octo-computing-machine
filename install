@@ -13,7 +13,7 @@ TRACK_FILE="$TRACK_DIR/${PACKAGE}.list"
 RED="\033[38;5;196m"      # насыщенный красный
 BLUE="\033[38;5;33m"      # синий
 YELLOW="\033[38;5;214m"   # медовый
-BOLD="\e[1m"
+BOLD="\033[1m"
 RESET="\033[0m"
 
 log_info()   { printf "${BOLD}${YELLOW}[!]${RESET} %s\n" "$1"; }
