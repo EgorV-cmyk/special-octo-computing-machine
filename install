@@ -1,9 +1,9 @@
 #!/bin/sh
 
 PACKAGE=$1
+
 APK_FILE="${PACKAGE}.apk"
 APK_URL="https://dl-cdn.alpinelinux.org/alpine/latest-stable/main/x86_64/$APK_FILE"
-
 TMP_DIR="/mnt/external/0/lavender.env/tmp"
 ROOTFS="/mnt/external/0"
 TRACK_DIR="/mnt/external/0/lavender.env/installed"
@@ -15,48 +15,55 @@ GREEN="\033[1;32m"
 YELLOW="\033[1;33m"
 RESET="\033[0m"
 
-log()   { printf "${YELLOW}[!]${RESET} %s\n" "$1"; }
-ok()    { printf "${GREEN}[✓]${RESET} %s\n" "$1"; }
-fail()  { printf "${RED}[✗]${RESET} %s\n" "$1"; }
-
-write_path() {
-  echo "$1" >> "$TRACK_FILE"
-}
-
-install_dir() {
-  SRC="$1"
-  [ -d "$TMP_DIR/$SRC" ] || return
-  find "$TMP_DIR/$SRC" -type f | while read -r FILE; do
-    REL="${FILE#$TMP_DIR/}"
-    DEST="$ROOTFS/$REL"
-    mkdir -p "$(dirname "$DEST")"
-    mv "$FILE" "$DEST"
-    write_path "/$REL"
-  done
-}
+log_info()    { printf "${YELLOW}[!]${RESET} %s\n" "$1"; }
+log_success() { printf "${GREEN}[✓]${RESET} %s\n" "$1"; }
+log_error()   { printf "${RED}[✗] %s${RESET}\n" "$1"; }
 
 mkdir -p "$TMP_DIR" "$TRACK_DIR"
-cd "$TMP_DIR" || { fail "Не удалось зайти в $TMP_DIR"; exit 1; }
+cd "$TMP_DIR" || { log_error "Failed to change directory to $TMP_DIR"; exit 1; }
 
-log "Скачиваю: $APK_URL"
-curl -s -O "$APK_URL" || { fail "Сбой загрузки: $PACKAGE"; exit 1; }
+log_info "Downloading: $APK_URL"
+curl -s -O "$APK_URL" || { log_error "Download failed: $PACKAGE"; exit 1; }
 
-log "Проверка архива..."
+log_info "Checking contents of $APK_FILE..."
 tar -tf "$APK_FILE" > /dev/null 2>&1 || {
-  fail "$APK_FILE не является допустимым архивом!"
+  log_error "$APK_FILE is not a valid tar archive!"
   exit 1
 }
 
-log "Распаковка: $PACKAGE"
+log_info "Extracting: $PACKAGE"
 tar -xf "$APK_FILE" --warning=no-unknown-keyword -C "$TMP_DIR"
 
-log "Установка и отслеживание файлов..."
-for DIR in etc bin sbin usr/bin usr/sbin usr/lib usr/share usr/libexec; do
-  install_dir "$DIR"
-done
+log_info "Installing package: $PACKAGE"
 
-log "Очистка временных файлов..."
+install_and_track() {
+  SRC="$1"
+  [ ! -d "$TMP_DIR/$SRC" ] && return
+  find "$TMP_DIR/$SRC" -type f | while read -r FILE; do
+    REL_PATH="${FILE#$TMP_DIR/}"
+    DEST="$ROOTFS/$REL_PATH"
+    mkdir -p "$(dirname "$DEST")"
+    cp "$FILE" "$DEST"
+    echo "/$REL_PATH" >> "$TRACK_FILE"
+  done
+}
+
+# Эти директории мы копируем
+install_and_track etc
+install_and_track bin
+install_and_track sbin
+install_and_track usr/bin
+install_and_track usr/sbin
+install_and_track usr/lib
+install_and_track usr/share
+install_and_track usr/libexec
+
+# lib (корневая) — только если не конфликтует, иначе можно вообще не трогать
+[ -d "$TMP_DIR/lib" ] && log_info "Skipping /lib for safety (conflicts like ncurses)"
+# Если хочешь включить выборочно, можно парсить и фильтровать нужные .so вручную
+
+log_info "Cleaning up temporary files..."
 rm -rf "$TMP_DIR"/*
 
-ok "Пакет установлен: $PACKAGE"
-log "Файл трекинга: $TRACK_FILE"
+log_success "Package installed: $PACKAGE"
+log_info "Tracking file: $TRACK_FILE"
