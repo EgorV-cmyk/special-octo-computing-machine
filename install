@@ -3,6 +3,7 @@ REPO=$1
 PACKAGE=$2
 APK_FILE="${PACKAGE}.apk"
 APK_URL_COMMUNITY="https://dl-cdn.alpinelinux.org/alpine/latest-stable/community/x86_64/$APK_FILE"
+APK_URL_TESTING="https://dl-cdn.alpinelinux.org/alpine/edge/testing/x86_64/$APK_FILE"
 APK_URL_MAIN="https://dl-cdn.alpinelinux.org/alpine/latest-stable/main/x86_64/$APK_FILE"
 TMP_DIR="/mnt/external/0/lavender.env/tmp"
 ROOTFS="/mnt/external/0"
@@ -12,12 +13,12 @@ TRACK_FILE="$TRACK_DIR/${PACKAGE}.list"
 RED="\033[38;5;196m"      # насыщенный красный
 BLUE="\033[38;5;33m"      # синий
 YELLOW="\033[38;5;214m"   # медовый
+BOLD="\e[1m"
 RESET="\033[0m"
 
-log_info()    { printf "${YELLOW}[!]${RESET} %s\n" "$1"; }
-log_success() { printf "${BLUE}[✓]${RESET} %s\n" "$1"; }
-log_error()   { printf "${RED}[✗]${RESET} %s\n" "$1"; }
-
+log_info()   { printf "${BOLD}${YELLOW}[!]${RESET} %s\n" "$1"; }
+log_success(){ printf "${BOLD}${BLUE}[✓]${RESET} %s\n" "$1"; }
+log_error()  { printf "${BOLD}${RED}[✗]${RESET} %s\n" "$1"; }
 mkdir -p "$TMP_DIR" "$TRACK_DIR"
 cd "$TMP_DIR" || { log_error "Failed to go to $TMP_DIR"; exit 1; }
 
@@ -27,6 +28,9 @@ if [ "$REPO" = "community" ]; then
 elif [ "$REPO" = "main" ]; then
   log_info "Downloading: $APK_URL_MAIN"
   curl -s -O "$APK_URL_MAIN" || { log_error "Error loading $PACKAGE"; exit 1; }
+elif [ "$REPO" = "testing" ]; then
+  log_info "Downloading: $APK_URL_TESTING"
+  curl -s -O "$APK_URL_TESTING" || { log_error "Error loading $PACKAGE"; exit 1; }
 else
   log_error "Unknown repository: $REPO"
   exit 1
