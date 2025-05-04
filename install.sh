@@ -88,4 +88,3 @@ printf "${INFO} To remove packages: ${GREEN}remove name-version${RESET}\n"
 printf "${INFO} Example: ${GREEN}nano-8.2-r0${RESET}\n"
 printf "${INFO} Use: ${GREEN}run <program>${RESET} to start installed programs.\n"
 printf "\n${INFO} To launch Lavender environment, run: ${GREEN}/mnt/external/0/start-bash${RESET}\n"
-/mnt/external/0/start-bash
