@@ -39,7 +39,6 @@ log_ok "All directories created."
 log_info "Downloading base tools..."
 curl -o /mnt/external/0/lavender.env/scripts/install https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/refs/heads/main/install
 curl -o /mnt/external/0/lavender.env/scripts/remove https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/refs/heads/main/remove
-curl -o /mnt/external/0/lavender.env/scripts/chk-libs https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/refs/heads/main/chk-libs
 chmod +x /mnt/external/0/lavender.env/scripts/*
 log_ok "Base scripts downloaded."
 
@@ -56,8 +55,6 @@ log_info "Installing core packages (musl, busybox, fish, nano, htop)..."
 /mnt/external/0/lavender.env/scripts/install ncurses-6.5_p20241006-r3 &&
 /mnt/external/0/lavender.env/scripts/install libpcre2-32-10.43-r0 &&
 /mnt/external/0/lavender.env/scripts/install libstdc++-14.2.0-r4 && 
-/mnt/external/0/lavender.env/scripts/install libncursesw-6.5_p20241006-r3 && 
-/mnt/external/0/lavender.env/scripts/install libintl-0.22.5-r0 &&
 /mnt/external/0/lavender.env/scripts/install nano-8.2-r0 &&
 /mnt/external/0/lavender.env/scripts/install htop-3.3.0-r0
 
