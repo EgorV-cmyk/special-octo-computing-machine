@@ -1,4 +1,3 @@
-export EDITOR=nano
 export HOME=/mnt/external/0/etc/home
 export LAVENDER=/mnt/external/0/
 
