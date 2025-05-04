@@ -34,33 +34,15 @@ tar -tf "$APK_FILE" > /dev/null 2>&1 || {
 log_info "Extracting: $PACKAGE"
 tar -xf "$APK_FILE" --warning=no-unknown-keyword -C "$TMP_DIR"
 
-log_info "Installing package: $PACKAGE"
+log_info "Installing files and tracking paths..."
 
-install_and_track() {
-  SRC="$1"
-  [ ! -d "$TMP_DIR/$SRC" ] && return
-  find "$TMP_DIR/$SRC" -type f | while read -r FILE; do
-    REL_PATH="${FILE#$TMP_DIR/}"
-    DEST="$ROOTFS/$REL_PATH"
-    mkdir -p "$(dirname "$DEST")"
-    cp "$FILE" "$DEST"
-    echo "/$REL_PATH" >> "$TRACK_FILE"
-  done
-}
-
-# Эти директории мы копируем
-install_and_track etc
-install_and_track bin
-install_and_track sbin
-install_and_track usr/bin
-install_and_track usr/sbin
-install_and_track usr/lib
-install_and_track usr/share
-install_and_track usr/libexec
-
-# lib (корневая) — только если не конфликтует, иначе можно вообще не трогать
-[ -d "$TMP_DIR/lib" ] && log_info "Skipping /lib for safety (conflicts like ncurses)"
-# Если хочешь включить выборочно, можно парсить и фильтровать нужные .so вручную
+find "$TMP_DIR" -type f | while read -r FILE; do
+  REL_PATH="${FILE#$TMP_DIR/}"
+  DEST_PATH="$ROOTFS/$REL_PATH"
+  mkdir -p "$(dirname "$DEST_PATH")"
+  mv "$FILE" "$DEST_PATH"
+  echo "/$REL_PATH" >> "$TRACK_FILE"
+done
 
 log_info "Cleaning up temporary files..."
 rm -rf "$TMP_DIR"/*
