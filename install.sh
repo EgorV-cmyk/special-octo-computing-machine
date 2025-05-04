@@ -1,7 +1,5 @@
 #!/bin/sh
 
-PWD=$(pwd)
-
 # Colors and symbols
 RED="\033[1;31m"
 GREEN="\033[1;32m"
@@ -36,11 +34,11 @@ do
 done
 log_ok "All directories created."
 
-log_info "Moving base tools..."
-mv installapps.sh /mnt/external/0/lavender.env/scripts/install
-mv remove.sh /mnt/external/0/lavender.env/scripts/remove
+log_info "Downloading base tools..."
+curl -o /mnt/external/0/lavender.env/scripts/install -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/installapps.sh?$(date +%s)"
+curl -o /mnt/external/0/lavender.env/scripts/remove -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/remove.sh?$(date +%s)"
 chmod +x /mnt/external/0/lavender.env/scripts/*
-log_ok "Base scripts moved."
+log_ok "Base scripts downloaded."
 
 # Install core utilities
 log_info "Installing core packages (musl, busybox, fastfetch, netcat, sox, nano, htop)..."
@@ -75,10 +73,10 @@ log_info "Installing core packages (musl, busybox, fastfetch, netcat, sox, nano,
 
 log_ok "Core utilities installed."
 
-# Moving bash config and startup script
-log_info "Moving config and startup files..."
-mv bash-conf.sh /mnt/external/0/lavender.env/bashrc
-mv start-bash.sh /mnt/external/0/start-bash
+# Fetching bash config and startup script
+log_info "Fetching config and startup files..."
+curl -o /mnt/external/0/lavender.env/bashrc -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/bash-config.sh?$(date +%s)"
+curl -o /mnt/external/0/start-bash -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/start-bash.sh?$(date +%s)"
 chmod +x /mnt/external/0/start-bash
 log_ok "Configuration files ready."
 
