@@ -42,7 +42,7 @@ chmod +x /mnt/external/0/lavender.env/scripts/*
 log_ok "Base scripts downloaded."
 
 # Install core utilities
-log_info "Installing core packages (musl, busybox, fish, nano, htop)..."
+log_info "Installing core packages (musl, busybox, nano, htop)..."
 /mnt/external/0/lavender.env/scripts/install musl-1.2.5-r9 &&
 /mnt/external/0/lavender.env/scripts/install busybox-1.37.0-r12 &&
 /mnt/external/0/lavender.env/scripts/install libncursesw-6.5_p20241006-r3 &&
