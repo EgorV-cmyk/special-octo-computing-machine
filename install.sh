@@ -42,9 +42,20 @@ chmod +x /mnt/external/0/lavender.env/scripts/*
 log_ok "Base scripts downloaded."
 
 # Install core utilities
-log_info "Installing core packages (musl, busybox, nano, htop)..."
+log_info "Installing core packages (musl, busybox, fastfetch, nano, htop)..."
 /mnt/external/0/lavender.env/scripts/install musl-1.2.5-r9 &&
 /mnt/external/0/lavender.env/scripts/install busybox-1.37.0-r12 &&
+/mnt/external/0/lavender.env/scripts/install hwdata-pci-0.393-r0 && 
+
+install_fastfetch() {
+  rm -rf /mnt/external/0/lavender.env/tmp/*
+  cd /mnt/external/0/lavender.env/tmp
+  curl -O https://dl-cdn.alpinelinux.org/alpine/latest-stable/community/x86_64/fastfetch-2.36.1-r0.apk &&
+  tar -xf *.apk
+  
+}
+install_fastfetch &&
+
 /mnt/external/0/lavender.env/scripts/install libncursesw-6.5_p20241006-r3 &&
 /mnt/external/0/lavender.env/scripts/install nano-8.2-r0 &&
 /mnt/external/0/lavender.env/scripts/install htop-3.3.0-r0
