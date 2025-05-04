@@ -62,8 +62,6 @@ move_and_track usr/libexec
 log_info "Cleaning up temporary files..."
 rm -rf "$TMP_DIR"/*
 
-log_info "Running duplicate library checker..."
-/mnt/external/0/lavender.env/scripts/chk-libs
 
 log_success "Package installed: $PACKAGE"
 log_info "Tracking file: $TRACK_FILE"
