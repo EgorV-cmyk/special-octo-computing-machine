@@ -1,7 +1,7 @@
 #!/bin/sh
 
 PACKAGE=$1
-echo "3"
+echo "4"
 APK_FILE="${PACKAGE}.apk"
 APK_URL="https://dl-cdn.alpinelinux.org/alpine/latest-stable/main/x86_64/$APK_FILE"
 TMP_DIR="/mnt/external/0/lavender.env/tmp"
@@ -54,19 +54,33 @@ for DIR in etc bin sbin lib usr/bin usr/sbin usr/lib usr/share usr/libexec; do
   move_and_track "$DIR"
 done
 
-# Создание симлинков .so -> .so.X или .so.X -> .so.X.Y если нужно
-log_info "Создание недостающих симлинков в lib директориях..."
-for LIBDIR in lib usr/lib usr/libexec; do
-  [ -d "$ROOTFS/$LIBDIR" ] || continue
-  cd "$ROOTFS/$LIBDIR" || continue
+# Папки, в которых будут искаться библиотеки
+LIB_DIRS="/mnt/external/0/lib /mnt/external/0/usr/lib /mnt/external/0/usr/libexec"
 
-  for REALFILE in *.so.*.*; do
-    [ -f "$REALFILE" ] || continue
-    BASE=$(echo "$REALFILE" | sed -E 's/\.so\..*/.so/')
-    MAJOR=$(echo "$REALFILE" | sed -E 's/.*\.so\.([0-9]+).*/.so.\1/')
-    
-    [ -e "$BASE" ]     || ln -s "$REALFILE" "$BASE"
-    [ -e "$MAJOR" ]    || ln -s "$REALFILE" "$MAJOR"
+for DIR in $LIB_DIRS; do
+  [ -d "$DIR" ] || continue
+
+  find "$DIR" -type f -name "*.so.*" | while read -r FILE; do
+    BASENAME="$(basename "$FILE")"
+    DIRNAME="$(dirname "$FILE")"
+
+    # Пример: libncursesw.so.6.5
+    if printf "%s" "$BASENAME" | grep -Eq '^(.+)\.so\.(\d+)(\.\d+)*$'; then
+      LIBNAME="$(echo "$BASENAME" | sed -E 's/\.so\..*/.so/')"
+      MAJORLINK="$(echo "$BASENAME" | sed -E 's/(\.so\.[0-9]+)(\..*)*/\1/')"
+
+      # libname.so.6 -> libname.so.6.5
+      if [ ! -e "$DIRNAME/$MAJORLINK" ]; then
+        ln -s "$BASENAME" "$DIRNAME/$MAJORLINK"
+        echo "[✓] Created symlink: $MAJORLINK → $BASENAME"
+      fi
+
+      # libname.so -> libname.so.6.5
+      if [ ! -e "$DIRNAME/$LIBNAME" ]; then
+        ln -s "$BASENAME" "$DIRNAME/$LIBNAME"
+        echo "[✓] Created symlink: $LIBNAME → $BASENAME"
+      fi
+    fi
   done
 done
 
