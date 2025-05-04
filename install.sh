@@ -43,22 +43,13 @@ log_ok "Base scripts downloaded."
 
 # Install core utilities
 log_info "Installing core packages (musl, busybox, fastfetch, nano, htop)..."
-/mnt/external/0/lavender.env/scripts/install musl-1.2.5-r9 &&
-/mnt/external/0/lavender.env/scripts/install busybox-1.37.0-r12 &&
-/mnt/external/0/lavender.env/scripts/install hwdata-pci-0.393-r0 && 
-
-install_fastfetch() {
-  rm -rf /mnt/external/0/lavender.env/tmp/*
-  cd /mnt/external/0/lavender.env/tmp
-  curl -O https://dl-cdn.alpinelinux.org/alpine/latest-stable/community/x86_64/fastfetch-2.36.1-r0.apk &&
-  tar -xf *.apk
-  
-}
-install_fastfetch &&
-
-/mnt/external/0/lavender.env/scripts/install libncursesw-6.5_p20241006-r3 &&
-/mnt/external/0/lavender.env/scripts/install nano-8.2-r0 &&
-/mnt/external/0/lavender.env/scripts/install htop-3.3.0-r0
+/mnt/external/0/lavender.env/scripts/install main musl-1.2.5-r9 &&
+/mnt/external/0/lavender.env/scripts/install main busybox-1.37.0-r12 &&
+/mnt/external/0/lavender.env/scripts/install main hwdata-pci-0.393-r0 && 
+/mnt/external/0/lavender.env/scripts/install community fastfetch-2.36.1-r0 && 
+/mnt/external/0/lavender.env/scripts/install main libncursesw-6.5_p20241006-r3 &&
+/mnt/external/0/lavender.env/scripts/install main nano-8.2-r0 &&
+/mnt/external/0/lavender.env/scripts/install main htop-3.3.0-r0
 
 log_ok "Core utilities installed."
 
@@ -71,7 +62,7 @@ log_ok "Configuration files ready."
 
 # Final notes
 
-printf "${INFO} Inside fish session, install packages with: ${GREEN}install name-version${RESET}\n"
+printf "${INFO} Inside fish session, install packages with: ${GREEN}install community_or_main_repos name-version${RESET}\n"
 printf "${INFO} To remove packages: ${GREEN}remove name-version${RESET}\n"
 printf "${INFO} Example: ${GREEN}nano-8.2-r0${RESET}\n"
 printf "${INFO} Use: ${GREEN}run <program>${RESET} to start installed programs.\n"
