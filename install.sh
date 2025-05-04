@@ -37,7 +37,7 @@ log_ok "All directories created."
 # Download base scripts
 log_info "Downloading base tools..."
 curl -o /mnt/external/0/lavender.env/scripts/install https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/refs/heads/main/install
-# curl -o /mnt/external/0/lavender.env/scripts/remove https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/refs/heads/main/remove
+curl -o /mnt/external/0/lavender.env/scripts/remove https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/refs/heads/main/remove
 chmod +x /mnt/external/0/lavender.env/scripts/*
 log_ok "Base scripts downloaded."
 
@@ -61,7 +61,7 @@ log_ok "Configuration files ready."
 # Final notes
 
 printf "${INFO} Inside fish session, install packages with: ${GREEN}install name-version${RESET}\n"
-# printf "${INFO} To remove packages: ${GREEN}remove name-version${RESET}\n"
+printf "${INFO} To remove packages: ${GREEN}remove name-version${RESET}\n"
 printf "${INFO} Example: ${GREEN}nano-8.2-r0${RESET}\n"
 printf "${INFO} Use: ${GREEN}run <program>${RESET} to start installed programs.\n"
 printf "\n${INFO} To launch Lavender environment, run: ${GREEN}/mnt/external/0/start-bash${RESET}\n"
