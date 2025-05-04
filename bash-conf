@@ -2,13 +2,16 @@ export EDITOR=nano
 export HOME=/mnt/external/0/etc/home
 export LAVENDER=/mnt/external/0/
 
+alias install="/mnt/external/0/lavender.env/scripts/install"
+alias remove="/mnt/external/0/lavender.env/scripts/remove"
+
 PS1='\033[38;5;250m[\u@\h \W]\033[0m \$ '
 
 run() {
   local prog="$1"
   local path
 
-  for dir in /mnt/external/0/bin /mnt/external/0/usr/bin; do
+  for dir in /mnt/external/0/bin /mnt/external/0/sbin /mnt/external/0/usr/sbin /mnt/external/0/usr/bin; do
     path="$dir/$prog"
     if [ -x "$path" ]; then
       /mnt/external/0/lib/ld-musl-x86_64.so.1 \
@@ -18,5 +21,5 @@ run() {
     fi
   done
 
-  echo -e "\033[1;31m[✗] Program '$prog' not found in /mnt/external/0/bin or /mnt/external/0/usr/bin.\033[0m"
+  echo -e "\033[1;31m[✗] Program '$prog' not found in /mnt/external/0/bin, /mnt/external/0/sbin, /mnt/external/0/usr/sbin or /mnt/external/0/usr/bin.\033[0m"
 }
