@@ -36,8 +36,8 @@ log_ok "All directories created."
 
 # Download base scripts
 log_info "Downloading base tools..."
-curl -o /mnt/external/0/lavender.env/scripts/install -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/install?$(date +%s)" &&
-curl -o /mnt/external/0/lavender.env/scripts/remove -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/remove?$(date +%s)" &&
+curl -o /mnt/external/0/lavender.env/scripts/install -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/installapps.sh?$(date +%s)" &&
+curl -o /mnt/external/0/lavender.env/scripts/remove -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/remove.sh?$(date +%s)" &&
 chmod +x /mnt/external/0/lavender.env/scripts/*
 log_ok "Base scripts downloaded."
 
@@ -76,8 +76,8 @@ log_ok "Core utilities installed."
 
 # Download fish config and startup script
 log_info "Fetching config and startup files..."
-curl -o /mnt/external/0/lavender.env/bashrc -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/bash-conf?$(date +%s)"
-curl -o /mnt/external/0/start-bash -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/start-bash?$(date +%s)"
+curl -o /mnt/external/0/lavender.env/bashrc -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/bash-conf.sh?$(date +%s)"
+curl -o /mnt/external/0/start-bash -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/start-bash.sh?$(date +%s)"
 chmod +x /mnt/external/0/start-bash
 log_ok "Configuration files ready."
 
