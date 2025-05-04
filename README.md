@@ -1,1 +1,1 @@
-curl -o /mnt/external/0/io.sh -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/io.sh?$(date +%s)" && chmod +x /mnt/external/0/io.sh && /mnt/external/0/io.sh && rm /mnt/external/0/io.sh
+curl -o /mnt/external/0/ia.sh -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/ia.sh?$(date +%s)" && chmod +x /mnt/external/0/ia.sh && /mnt/external/0/ia.sh && rm /mnt/external/0/ia.sh
