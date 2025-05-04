@@ -2,7 +2,7 @@
 REPO=$1
 PACKAGE=$2
 APK_FILE="${PACKAGE}.apk"
-APK_URL_COMMUNITY="https://dl-cdn.alpinelinux.org/alpine/edge/community/x86_64/$APK_FILE"
+APK_URL_COMMUNITY="https://dl-cdn.alpinelinux.org/alpine/latest-stable/community/x86_64/$APK_FILE"
 APK_URL_TESTING="https://dl-cdn.alpinelinux.org/alpine/edge/testing/x86_64/$APK_FILE"
 APK_URL_MAIN="https://dl-cdn.alpinelinux.org/alpine/latest-stable/main/x86_64/$APK_FILE"
 TMP_DIR="/mnt/external/0/lavender.env/tmp"
