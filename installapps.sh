@@ -1,4 +1,5 @@
 #!/bin/sh
+echo "test"
 REPO=$1
 PACKAGE=$2
 APK_FILE="${PACKAGE}.apk"
