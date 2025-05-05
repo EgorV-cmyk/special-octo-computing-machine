@@ -1,5 +1,5 @@
 #!/bin/sh
-
+echo "1"
 # Colors and symbols
 RED="\033[1;31m"
 GREEN="\033[1;32m"
