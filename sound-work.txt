@@ -1,8 +1,8 @@
 lxc remote remove images
 lxc remote add images https://images.lxd.canonical.com/ --protocol=simplestreams
 lxc launch images:alpine/edge sound
-lxc exec sound apk add sdl2 ffmpeg-libs ffplay netcat-openbsd alsa-utils sox
-lxc exec sound mkdir -p /root/lavtmp
-lxc exec sound curl -o /root/daemon.sh -s https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/daemon.sh
+lxc exec sound "apk add sdl2 ffmpeg-libs ffplay netcat-openbsd alsa-utils sox"
+lxc exec sound "mkdir -p /root/lavtmp"
+lxc exec sound "curl -o /root/daemon.sh -s https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/daemon.sh"
 lxc list
 echo "The daemon will be started together with the Lavender session. To stop the daemon, enter: stopsound. To start the daemon, enter: startsound. To play audio files, enter: cat audio-file(supported=.mp3_and_.wav) | run nc -w 1 sound_conteiner_ip 12345."
