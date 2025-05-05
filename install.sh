@@ -45,7 +45,7 @@ log_info "Installing core packages (musl, busybox, fastfetch, netcat, sox, nano,
 /mnt/external/0/lavender.env/scripts/install main musl-1.2.5-r9 &&
 /mnt/external/0/lavender.env/scripts/install main busybox-1.37.0-r12 &&
 /mnt/external/0/lavender.env/scripts/install main hwdata-pci-0.393-r0 && 
-#/mnt/external/0/lavender.env/scripts/install edge_community fastfetch-2.42.0-r0 && 
+/mnt/external/0/lavender.env/scripts/install edge_community fastfetch-2.42.0-r0 && 
 /mnt/external/0/lavender.env/scripts/install main libncursesw-6.5_p20241006-r3 &&
 /mnt/external/0/lavender.env/scripts/install main nano-8.2-r0 &&
 /mnt/external/0/lavender.env/scripts/install main libmd-1.1.0-r0 &&
