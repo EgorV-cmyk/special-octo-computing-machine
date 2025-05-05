@@ -3,6 +3,22 @@ export LAVENDER=/mnt/external/0/
 
 alias install="/mnt/external/0/lavender.env/scripts/install"
 alias remove="/mnt/external/0/lavender.env/scripts/remove"
+alias startsound="lxc exec sound sh daemon.sh &"
+
+stopsound() {
+    pkill -f -9 "sh daemon.sh"
+    
+    local status=$?
+
+    if [ $status -eq 0 ]; then
+        echo "One or more 'sh daemon.sh' processes terminated successfully."
+    elif [ $status -eq 1 ]; then
+        echo "No processes 'sh daemon.sh' found to terminate."
+    else
+        echo "An error occurred while attempting to terminate processes 'sh daemon.sh'. Exit code: $status" >&2
+    fi
+    return $status
+}
 
 PS1='\033[38;5;250m[\u@\h \W]\033[0m \$ '
 
