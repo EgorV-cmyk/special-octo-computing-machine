@@ -40,6 +40,8 @@ start_lxc_if_needed() {
 
 start_lxc_if_needed sound
 
+lxc exec sound sh daemon.sh &
+
 PS1='\033[38;5;250m[\u@\h \W]\033[0m \$ '
 
 run() {
