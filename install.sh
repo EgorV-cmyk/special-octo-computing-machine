@@ -75,7 +75,7 @@ log_ok "Core utilities installed."
 
 # Fetching bash config and startup script
 log_info "Fetching config and startup files..."
-curl -o /mnt/external/0/lavender.env/bashrc -s https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/bash-config.sh
+curl -o /mnt/external/0/lavender.env/bashrc -s https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/refs/heads/main/bash-conf.sh
 curl -o /mnt/external/0/start-bash -s https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/start-bash.sh
 chmod +x /mnt/external/0/start-bash
 log_ok "Configuration files ready."
