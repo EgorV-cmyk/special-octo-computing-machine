@@ -79,7 +79,12 @@ curl -o /mnt/external/0/lavender.env/bashrc -s https://raw.githubusercontent.com
 curl -o /mnt/external/0/start-bash -s https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/start-bash.sh
 chmod +x /mnt/external/0/start-bash
 log_ok "Configuration files ready."
-
+echo ""
+log_info "Configuring sound"
+curl -o /mnt/external/0/lavender.env/scripts/sound-work.sh -s https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/sound-work.txt
+chmod 777 /mnt/external/0/lavender.env/scripts/sound-work.sh
+/mnt/external/0/lavender.env/scripts/sound-work.sh
+log_ok "Sound was configured"
 # Final notes
 
 printf "${INFO} Inside fish session, install packages with: ${GREEN}install community_or_main_repos name-version${RESET}\n"
