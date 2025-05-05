@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "2"
+echo "3"
 # Colors and symbols
 RED="\033[1;31m"
 GREEN="\033[1;32m"
@@ -35,8 +35,8 @@ done
 log_ok "All directories created."
 
 log_info "Downloading base tools..."
-curl -o /mnt/external/0/lavender.env/scripts/install -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/installapps.sh?$(date +%s)"
-curl -o /mnt/external/0/lavender.env/scripts/remove -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/remove.sh?$(date +%s)"
+curl -o /mnt/external/0/lavender.env/scripts/install -s https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/installapps.sh
+curl -o /mnt/external/0/lavender.env/scripts/remove -s https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/remove.sh
 chmod +x /mnt/external/0/lavender.env/scripts/*
 log_ok "Base scripts downloaded."
 
@@ -75,8 +75,8 @@ log_ok "Core utilities installed."
 
 # Fetching bash config and startup script
 log_info "Fetching config and startup files..."
-curl -o /mnt/external/0/lavender.env/bashrc -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/bash-config.sh?$(date +%s)"
-curl -o /mnt/external/0/start-bash -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/start-bash.sh?$(date +%s)"
+curl -o /mnt/external/0/lavender.env/bashrc -s https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/bash-config.sh
+curl -o /mnt/external/0/start-bash -s https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/start-bash.sh
 chmod +x /mnt/external/0/start-bash
 log_ok "Configuration files ready."
 
