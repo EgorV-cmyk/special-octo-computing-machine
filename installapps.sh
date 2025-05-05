@@ -26,10 +26,10 @@ cd "$TMP_DIR" || { log_error "Failed to go to $TMP_DIR"; exit 1; }
 
 if [ "$REPO" = "main_community" ]; then
   log_info "Downloading: $APK_URL_MAIN_COMMUNITY"
-  curl -s -O "$APK_URL_COMMUNITY" || { log_error "Error loading $PACKAGE"; exit 1; }
+  curl -s -O "$APK_URL_MAIN_COMMUNITY" || { log_error "Error loading $PACKAGE"; exit 1; }
 elif [ "$REPO" = "edge_community" ]; then
   log_info "Downloading: $APK_URL_EDGE_COMMUNITY"
-  curl -s -O "$APK_URL_COMMUNITY" || { log_error "Error loading $PACKAGE"; exit 1; }
+  curl -s -O "$APK_URL_EDGE_COMMUNITY" || { log_error "Error loading $PACKAGE"; exit 1; }
 elif [ "$REPO" = "main" ]; then
   log_info "Downloading: $APK_URL_MAIN"
   curl -s -O "$APK_URL_MAIN" || { log_error "Error loading $PACKAGE"; exit 1; }
