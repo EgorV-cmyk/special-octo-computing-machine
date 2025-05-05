@@ -1,1 +1,1 @@
-curl -o /mnt/external/0/install.sh -s "https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/install.sh?$(date +%s)" && chmod +x /mnt/external/0/install.sh && /mnt/external/0/install.sh && rm /mnt/external/0/install.sh
+curl -o /mnt/external/0/install.sh -s https://raw.githubusercontent.com/EgorV-cmyk/special-octo-computing-machine/main/install.sh && chmod +x /mnt/external/0/install.sh && /mnt/external/0/install.sh && rm /mnt/external/0/install.sh
