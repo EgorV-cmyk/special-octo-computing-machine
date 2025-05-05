@@ -20,6 +20,26 @@ stopsound() {
     return $status
 }
 
+start_lxc_if_needed() {
+  local container_name="${1:-mycontainer}"
+
+  if ! lxc-info -n "$container_name" >/dev/null 2>&1; then
+    echo "Container '$container_name' not found."
+    return 1
+  fi
+
+  local state
+  state=$(lxc-info -n "$container_name" -s | awk '{print $2}')
+
+  if [ "$state" = "RUNNING" ]; then
+    echo "Container sound is running"
+  else
+    lxc-start -n "$container_name" -d
+  fi
+}
+
+start_lxc_if_needed sound
+
 PS1='\033[38;5;250m[\u@\h \W]\033[0m \$ '
 
 run() {
